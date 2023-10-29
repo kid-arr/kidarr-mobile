@@ -1,7 +1,7 @@
 import { View, Text, Button } from "react-native";
 import React from "react";
 import { Stack, useRouter } from "expo-router";
-import { AuthProvider, useAuthContext } from "../provders/auth-provider";
+import { AuthProvider, useAuthContext } from "../providers/auth-provider";
 
 const DefaultLayout = () => {
   const router = useRouter();
