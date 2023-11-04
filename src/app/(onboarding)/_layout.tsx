@@ -9,6 +9,10 @@ const OnboardingLayout = () => {
         name="onboard"
         options={{ headerShown: false }}
       />
+      <Stack.Screen
+        name="child"
+        options={{ headerShown: false }}
+      />
     </Stack>
   );
 };

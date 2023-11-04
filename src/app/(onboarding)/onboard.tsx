@@ -45,7 +45,7 @@ const Onboarding = () => {
             <Button
               style={styles.button}
               color={argonTheme.COLORS.BUTTON_COLOR}
-              textStyle={{ color: argonTheme.COLORS.BLACK }}
+              textStyle={{ color: argonTheme.COLORS.GREY }}
               onPress={async () => {
                 await SecureStore.setItemAsync("onbst", "parent");
                 setAuthType("parent");
@@ -60,7 +60,7 @@ const Onboarding = () => {
               onPress={async () => {
                 // await AsyncStorage.setItem("onbst", "child");
                 // setAuthType("child");
-                router.push("/onboarding/child");
+                router.push("/child");
               }}
             >
               I am a child

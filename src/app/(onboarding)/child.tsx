@@ -3,12 +3,21 @@ import React from "react";
 
 const Child = () => {
   return (
-    <View>
-      <Text>Child</Text>
+    <View style={styles.container}>
+      <Text style={styles.headerText}>Child</Text>
     </View>
   );
 };
 
 export default Child;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  headerText: {
+    fontSize: 22,
+  },
+});

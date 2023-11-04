@@ -27,6 +27,7 @@ export default {
     HEADER: "#525F7F",
     BORDER: "#CAD1D7",
     WHITE: "#FFFFFF",
+    GREY: "#d3d3d3",
     BLACK: "#000000",
   },
 };
