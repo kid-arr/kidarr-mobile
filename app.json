@@ -4,9 +4,17 @@
     "web": {
       "bundler": "metro"
     },
-    "plugins": ["expo-router"],
-    "name": "parentgrine-mobile",
+    "plugins": [
+      "expo-router",
+      [
+        "expo-barcode-scanner",
+        { "cameraPermission": "Allow $(PRODUCT_NAME) to access camera." }
+      ]
+    ],
+    "name": "Parentgrine Falcon",
     "slug": "parentgrine-mobile",
-    "experiments": { "tsconfigPaths": true }
+    "experiments": {
+      "tsconfigPaths": true
+    }
   }
 }

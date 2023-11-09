@@ -7,11 +7,11 @@ import {
   Dimensions,
 } from "react-native";
 import { Block, Button, Text, theme } from "galio-framework";
-import { Images } from "../../constants/images";
-import argonTheme from "../../constants/theme";
+import { Images } from "@/constants/images";
+import argonTheme from "@/constants/theme";
 import * as SecureStore from "expo-secure-store";
 import { useRouter } from "expo-router";
-import { useAuthContext } from "../../providers/auth-provider";
+import { useAuthContext } from "@/providers/auth-provider";
 
 const { height, width } = Dimensions.get("screen");
 

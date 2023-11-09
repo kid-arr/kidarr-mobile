@@ -1,7 +1,7 @@
 import { View, Text, Button } from "react-native";
 import React from "react";
 import { Stack, useRouter } from "expo-router";
-import { AuthProvider, useAuthContext } from "../providers/auth-provider";
+import { AuthProvider, useAuthContext } from "@/providers/auth-provider";
 
 const DefaultLayout = () => {
   const router = useRouter();
@@ -26,7 +26,6 @@ const DefaultLayout = () => {
         />
 
         <Stack.Screen name="(onboarding)" options={{ headerShown: false }} />
-        <Stack.Screen name="child" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: "modal" }} />
       </Stack>
     </AuthProvider>
