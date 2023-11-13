@@ -1,32 +1,34 @@
-import React from "react";
-import { StyleSheet, View } from "react-native";
-import { Button, Text } from "galio-framework";
-import { Link } from "expo-router";
-import { useAuthContext } from "@/providers/auth-provider";
-import argonTheme from "@/constants/theme";
+import { Link, useRouter } from 'expo-router';
+import { Button, Text } from 'galio-framework';
+import React from 'react';
+import { StyleSheet, View, ActivityIndicator } from 'react-native';
+
+import argonTheme from '@/constants/theme';
+import { useAuthContext } from '@/providers/auth-provider';
 
 const IndexPage = () => {
   const { authState, setAuthState } = useAuthContext();
-  return (
+  const router = useRouter();
+  const renderDebug = () => (
     <View style={styles.container}>
       <Text h5>Auth Context: {authState}</Text>
-      <Link style={styles.link} href={"/register"}>
+      <Link style={styles.link} href="/register">
         Open register
       </Link>
-      <Link style={styles.link} href={"/onboard"}>
+      <Link style={styles.link} href="/onboard">
         Open onboarding
       </Link>
       <View style={styles.buttonGroup}>
         <Button
           onPress={() => {
-            setAuthState("parent");
+            setAuthState('parent');
           }}
         >
           Change Auth State
         </Button>
         <Button
           onPress={() => {
-            setAuthState("none");
+            setAuthState('none');
           }}
         >
           Reset Auth State
@@ -34,6 +36,15 @@ const IndexPage = () => {
       </View>
     </View>
   );
+  switch (authState) {
+    case 'none':
+      return renderDebug();
+    case 'child':
+      router.replace('/user');
+      return null;
+    default:
+      return renderDebug();
+  }
 };
 
 export default IndexPage;
@@ -49,7 +60,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   buttonGroup: {
-    justifyContent: "space-around",
-    width: "100%",
+    justifyContent: 'space-around',
+    width: '100%',
   },
 });

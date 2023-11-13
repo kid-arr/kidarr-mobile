@@ -1,6 +1,5 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
-import { Link } from "expo-router";
+import React from 'react';
+import { Text, View } from 'react-native';
 
 const RegisterPage = () => {
   return (
@@ -11,5 +10,3 @@ const RegisterPage = () => {
 };
 
 export default RegisterPage;
-
-const styles = StyleSheet.create({});

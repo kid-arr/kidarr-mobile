@@ -1,19 +1,14 @@
-import React from "react";
-import {
-  ImageBackground,
-  Image,
-  StyleSheet,
-  StatusBar,
-  Dimensions,
-} from "react-native";
-import { Block, Button, Text, theme } from "galio-framework";
-import { Images } from "@/constants/images";
-import argonTheme from "@/constants/theme";
-import * as SecureStore from "expo-secure-store";
-import { useRouter } from "expo-router";
-import { useAuthContext } from "@/providers/auth-provider";
+import { useRouter } from 'expo-router';
+import * as SecureStore from 'expo-secure-store';
+import { Block, Button, Text, theme } from 'galio-framework';
+import React from 'react';
+import { Dimensions, ImageBackground, StyleSheet } from 'react-native';
 
-const { height, width } = Dimensions.get("screen");
+import { Images } from '@/constants/images';
+import argonTheme from '@/constants/theme';
+import { useAuthContext } from '@/providers/auth-provider';
+
+const { height, width } = Dimensions.get('screen');
 
 const Onboarding = () => {
   const { setAuthType } = useAuthContext();
@@ -47,8 +42,8 @@ const Onboarding = () => {
               color={argonTheme.COLORS.BUTTON_COLOR}
               textStyle={{ color: argonTheme.COLORS.GREY }}
               onPress={async () => {
-                await SecureStore.setItemAsync("onbst", "parent");
-                setAuthType("parent");
+                await SecureStore.setItemAsync('onbst', 'parent');
+                setAuthType('parent');
               }}
             >
               I am a parent
@@ -58,9 +53,7 @@ const Onboarding = () => {
               color={argonTheme.COLORS.SECONDARY}
               textStyle={{ color: argonTheme.COLORS.BLACK }}
               onPress={async () => {
-                // await AsyncStorage.setItem("onbst", "child");
-                // setAuthType("child");
-                router.push("/child");
+                router.push('/child');
               }}
             >
               I am a child
@@ -77,7 +70,7 @@ const styles = StyleSheet.create({
   },
   padded: {
     paddingHorizontal: theme.SIZES?.BASE || 2 * 2,
-    position: "relative",
+    position: 'relative',
     bottom: theme.SIZES?.BASE || 2,
     zIndex: 2,
   },
@@ -91,11 +84,11 @@ const styles = StyleSheet.create({
     width: 200,
     height: 60,
     zIndex: 2,
-    position: "relative",
-    marginTop: "-50%",
+    position: 'relative',
+    marginTop: '-50%',
   },
   title: {
-    marginTop: "-5%",
+    marginTop: '-5%',
   },
   subTitle: {
     marginTop: 20,

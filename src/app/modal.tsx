@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React from 'react';
+import { Text, View } from 'react-native';
 
 const Modal = () => {
   return (
@@ -10,5 +10,3 @@ const Modal = () => {
 };
 
 export default Modal;
-
-const styles = StyleSheet.create({});
