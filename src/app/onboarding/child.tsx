@@ -4,7 +4,13 @@ import { useRouter } from 'expo-router';
 import * as SecureStore from 'expo-secure-store';
 import { StatusCodes } from 'http-status-codes';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Button,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 
 import { RegisterDeviceResponse } from '@/models/responses/register-device';
 import { useAuthContext } from '@/providers/auth-provider';
@@ -67,6 +73,16 @@ const Child = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Scan the QR code for your child.</Text>
       {scanned ? renderProgress() : renderCamera()}
+
+      <Button
+        title="Spoof It"
+        onPress={() => {
+          handleScan({
+            type: 'qr',
+            data: 'https://parentgrin.dev.fergl.ie:3000/api/device/connect?childId=ffa9a83c-824e-4dce-a034-3ab5556b0a1d',
+          });
+        }}
+      />
     </View>
   );
 };

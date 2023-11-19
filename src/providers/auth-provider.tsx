@@ -10,12 +10,14 @@ import {
 export type AuthType = 'none' | 'onboarding' | 'parent' | 'child';
 
 type AuthState = {
+  isLoaded: boolean;
   authState: AuthType;
   setAuthState?: (authState: AuthType) => void;
 };
 
 const AuthContext = createContext<AuthState>({
   authState: 'none',
+  isLoaded: true,
 });
 
 export const useAuthContext = () => {
@@ -42,6 +44,7 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
+        isLoaded: true,
         authState,
         setAuthState: async (authState: AuthType) => {
           setAuthState(authState);

@@ -15,6 +15,10 @@
     "slug": "parentgrine-mobile",
     "experiments": {
       "tsconfigPaths": true
+    },
+    "android": {
+      "package": "com.parentgrine.mobile",
+      "permissions": ["ACCESS_BACKGROUND_LOCATION"]
     }
   }
 }

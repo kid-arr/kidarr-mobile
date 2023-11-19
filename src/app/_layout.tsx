@@ -1,35 +1,34 @@
-import { Stack, useRouter } from 'expo-router';
-import React from 'react';
-import { Button } from 'react-native';
+import { Slot, useRouter, useSegments } from 'expo-router';
+import * as SecureStore from 'expo-secure-store';
+import React, { useEffect } from 'react';
 
-import { AuthProvider } from '@/providers/auth-provider';
+import { AuthProvider, useAuthContext } from '@/providers/auth-provider';
+
+const InitialLayout = () => {
+  const { isLoaded, authState } = useAuthContext();
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isLoaded) return;
+    setTimeout(() => {
+      if (authState === 'child') {
+        router.replace('(app)/child');
+      } else if (authState === 'parent') {
+        router.replace('/user/parent');
+      } else {
+        router.replace('/onboarding');
+      }
+    }, 0);
+  }, [authState]);
+
+  return <Slot />;
+};
 
 const DefaultLayout = () => {
-  const router = useRouter();
   return (
     <AuthProvider>
-      <Stack>
-        <Stack.Screen
-          name="index"
-          options={{
-            headerTitle: 'Farts',
-            headerShown: true,
-          }}
-        />
-        <Stack.Screen
-          name="register"
-          options={{
-            headerTitle: 'Create Account',
-            headerRight: () => (
-              <Button title="Open" onPress={() => router.push('modal')} />
-            ),
-          }}
-        />
-
-        <Stack.Screen name="(onboarding)" options={{ headerShown: false }} />
-        <Stack.Screen name="(app)/user" options={{ headerShown: true }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-      </Stack>
+      <InitialLayout />
     </AuthProvider>
   );
 };

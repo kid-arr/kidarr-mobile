@@ -11,7 +11,7 @@ import { useAuthContext } from '@/providers/auth-provider';
 const { height, width } = Dimensions.get('screen');
 
 const Onboarding = () => {
-  const { setAuthType } = useAuthContext();
+  const { setAuthState } = useAuthContext();
   const router = useRouter();
   return (
     <Block flex style={styles.container}>
@@ -43,7 +43,7 @@ const Onboarding = () => {
               textStyle={{ color: argonTheme.COLORS.GREY }}
               onPress={async () => {
                 await SecureStore.setItemAsync('onbst', 'parent');
-                setAuthType('parent');
+                setAuthState('parent');
               }}
             >
               I am a parent
@@ -53,7 +53,7 @@ const Onboarding = () => {
               color={argonTheme.COLORS.SECONDARY}
               textStyle={{ color: argonTheme.COLORS.BLACK }}
               onPress={async () => {
-                router.push('/child');
+                router.push('/onboarding/child');
               }}
             >
               I am a child
