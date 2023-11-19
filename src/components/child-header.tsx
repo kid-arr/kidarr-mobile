@@ -1,9 +1,18 @@
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import { TouchableOpacity, View, StyleSheet, Text, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import Colors from '@/constants/colours';
+import { useAuthContext } from '@/providers/auth-provider';
+
 const ChildHeader = () => {
+  const { logout } = useAuthContext();
+
+  const _logout = async () => {
+    await logout();
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
@@ -16,7 +25,10 @@ const ChildHeader = () => {
         <TouchableOpacity>
           <Text style={styles.title}>Parentgrine Falcon</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.profileButton}>
+        <TouchableOpacity
+          style={styles.profileButton}
+          onPress={() => _logout()}
+        >
           <Ionicons name="person-outline" size={20} color={Colors.primary} />
         </TouchableOpacity>
       </View>

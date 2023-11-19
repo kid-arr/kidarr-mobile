@@ -1,3 +1,4 @@
+import { useRouter } from 'expo-router';
 import * as SecureStore from 'expo-secure-store';
 import {
   PropsWithChildren,
@@ -13,6 +14,7 @@ type AuthState = {
   isLoaded: boolean;
   authState: AuthType;
   setAuthState?: (authState: AuthType) => void;
+  logout?: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthState>({
@@ -32,7 +34,7 @@ export const useAuthContext = () => {
 
 export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [authState, setAuthState] = useState<AuthType>('none');
-
+  const router = useRouter();
   useEffect(() => {
     const getStorage = async () => {
       const onboarded =
@@ -52,6 +54,19 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
           if (authState === 'none') {
             await SecureStore.deleteItemAsync('child');
           }
+        },
+        logout: async () => {
+          setAuthState('none');
+          SecureStore.deleteItemAsync('child');
+          SecureStore.deleteItemAsync('onbst');
+          SecureStore.deleteItemAsync('auth-state');
+          
+          //TODO: This is a hack to reset the router stack
+          //🤮🤮🤮🤮🤮🤮
+          while (router.canGoBack()) {
+            router.back();
+          }
+          router.replace('/');
         },
       }}
     >

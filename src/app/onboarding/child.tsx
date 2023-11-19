@@ -44,7 +44,7 @@ const Child = () => {
       console.log('child', 'handleScan', response.data);
       await SecureStore.setItemAsync('child', JSON.stringify(response.data));
       setAuthState('child');
-      router.push('/');
+      router.replace('/');
     }
     setScanned(false);
   };

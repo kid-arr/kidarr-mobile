@@ -1,5 +1,4 @@
 import { Slot, useRouter, useSegments } from 'expo-router';
-import * as SecureStore from 'expo-secure-store';
 import React, { useEffect } from 'react';
 
 import { AuthProvider, useAuthContext } from '@/providers/auth-provider';
