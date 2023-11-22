@@ -60,9 +60,11 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
           SecureStore.deleteItemAsync('child');
           SecureStore.deleteItemAsync('onbst');
           SecureStore.deleteItemAsync('auth-state');
-          
+
           //TODO: This is a hack to reset the router stack
           //🤮🤮🤮🤮🤮🤮
+          //future me??
+          //🫢🫢🫢🫢🫢🫢
           while (router.canGoBack()) {
             router.back();
           }

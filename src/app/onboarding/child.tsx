@@ -14,6 +14,7 @@ import {
 
 import { RegisterDeviceResponse } from '@/models/responses/register-device';
 import { useAuthContext } from '@/providers/auth-provider';
+import { getUniqueDeviceId } from '@/services/unique-device-id';
 
 const Child = () => {
   const [hasPermission, setHasPermission] = useState(null);
@@ -27,7 +28,7 @@ const Child = () => {
       console.log('child', 'Get Permissions_inner');
 
       const { status } = await BarCodeScanner.requestPermissionsAsync();
-      console.log('child', 'Get Permissions_statuus', status);
+      console.log('child', 'Get Permissions_status', status);
       setHasPermission(status === 'granted');
     };
     getBarcodePermissions();
@@ -36,20 +37,40 @@ const Child = () => {
   const handleScan = async ({ type, data }) => {
     setScanned(true);
     console.log('child', 'handleScan', 'making request', data);
-    const response: AxiosResponse<RegisterDeviceResponse> = await axios.post(
-      data,
-      { type, data }
-    );
-    if (response.status === StatusCodes.CREATED) {
-      console.log('child', 'handleScan', response.data);
-      await SecureStore.setItemAsync('child', JSON.stringify(response.data));
-      setAuthState('child');
-      router.replace('/');
+    const url = `${process.env.EXPO_PUBLIC_API_URL}/device/connect`;
+    const deviceId = await getUniqueDeviceId();
+    console.log('child', 'url', url);
+    console.log('child', 'deviceId', deviceId);
+    console.log('child', 'childId', data);
+    try {
+      const response: AxiosResponse<RegisterDeviceResponse> = await axios.post(
+        url, //data should be the URL to post to
+        { childId: data, deviceId }
+      );
+      if (response.status === StatusCodes.CREATED) {
+        console.log('child', 'handleScan', response.data);
+        await SecureStore.setItemAsync('child', JSON.stringify(response.data));
+        setAuthState('child');
+        router.replace('/');
+      } else {
+        console.log(
+          'child',
+          'Error registering devive',
+          response.status,
+          response.statusText
+        );
+        alert('Something went wrong, please try again');
+        setAuthState('none');
+        setScanned(false);
+      }
+    } catch (err) {
+      console.log('child', 'Error registering devive', err);
+      alert('Something went wrong, please try again');
+      setAuthState('none');
+      setScanned(false);
     }
-    setScanned(false);
   };
 
-  //return a react native text component with the appropriate message
   if (hasPermission === null) {
     return <Text>Requesting for camera permission</Text>;
   }
@@ -79,7 +100,7 @@ const Child = () => {
         onPress={() => {
           handleScan({
             type: 'qr',
-            data: 'https://parentgrin.dev.fergl.ie:3000/api/device/connect?childId=ffa9a83c-824e-4dce-a034-3ab5556b0a1d',
+            data: 'eb262943-1755-4257-94c8-07f19d326371',
           });
         }}
       />
