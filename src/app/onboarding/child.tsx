@@ -100,7 +100,7 @@ const Child = () => {
         onPress={() => {
           handleScan({
             type: 'qr',
-            data: 'eb262943-1755-4257-94c8-07f19d326371',
+            data: '515e9c4e-7f0b-40eb-9d4f-145af724de0f',
           });
         }}
       />
