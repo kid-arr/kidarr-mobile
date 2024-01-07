@@ -2,6 +2,8 @@ import axios, { AxiosResponse } from 'axios';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { useRouter } from 'expo-router';
 import * as SecureStore from 'expo-secure-store';
+import * as Device from 'expo-device';
+
 import { StatusCodes } from 'http-status-codes';
 import { useEffect, useState } from 'react';
 import {
@@ -15,6 +17,7 @@ import {
 import { RegisterDeviceResponse } from '@/models/responses/register-device';
 import { useAuthContext } from '@/providers/auth-provider';
 import { getUniqueDeviceId } from '@/services/unique-device-id';
+import { DebugConstants } from '@/constants/debug';
 
 const Child = () => {
   const [hasPermission, setHasPermission] = useState(null);
@@ -38,14 +41,30 @@ const Child = () => {
     setScanned(true);
     console.log('child', 'handleScan', 'making request', data);
     const url = `${process.env.EXPO_PUBLIC_API_URL}/device/connect`;
-    const deviceId = await getUniqueDeviceId();
+    const deviceId =
+      type === 'hack' ? DebugConstants.deviceId : await getUniqueDeviceId();
     console.log('child', 'url', url);
     console.log('child', 'deviceId', deviceId);
     console.log('child', 'childId', data);
+    if (type === 'hack') {
+      await SecureStore.setItemAsync(
+        'child',
+        JSON.stringify({
+          childId: DebugConstants.childId,
+          deviceId: DebugConstants.deviceId,
+          pin: DebugConstants.devicePIN,
+          apiKey: DebugConstants.apiKey,
+        })
+      );
+      setAuthState('child');
+      router.replace('/');
+      return;
+    }
     try {
+      const deviceName = Device.deviceName;
       const response: AxiosResponse<RegisterDeviceResponse> = await axios.post(
         url, //data should be the URL to post to
-        { childId: data, deviceId }
+        { childId: data, deviceId, deviceName }
       );
       if (response.status === StatusCodes.CREATED) {
         console.log('child', 'handleScan', response.data);
@@ -95,15 +114,26 @@ const Child = () => {
       <Text style={styles.title}>Scan the QR code for your child.</Text>
       {scanned ? renderProgress() : renderCamera()}
 
-      <Button
-        title="Spoof It"
-        onPress={() => {
-          handleScan({
-            type: 'qr',
-            data: '515e9c4e-7f0b-40eb-9d4f-145af724de0f',
-          });
-        }}
-      />
+      <View style={styles.buttonContainer}>
+        <Button
+          title="Spoof It (POST)"
+          onPress={() => {
+            handleScan({
+              type: 'spoof',
+              data: DebugConstants.childId,
+            });
+          }}
+        />
+        <Button
+          title="Hack It (no POST)"
+          onPress={() => {
+            handleScan({
+              type: 'hack',
+              data: DebugConstants.childId,
+            });
+          }}
+        />
+      </View>
     </View>
   );
 };
@@ -115,6 +145,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  buttonContainer: {
+    rowGap: 5,
   },
 
   title: {
