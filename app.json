@@ -8,7 +8,9 @@
       "expo-router",
       [
         "expo-barcode-scanner",
-        { "cameraPermission": "Allow $(PRODUCT_NAME) to access camera." }
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access camera."
+        }
       ]
     ],
     "name": "Parentgrine Falcon",
@@ -18,7 +20,18 @@
     },
     "android": {
       "package": "com.parentgrine.mobile",
-      "permissions": ["ACCESS_BACKGROUND_LOCATION"]
+      "permissions": [
+        "ACCESS_BACKGROUND_LOCATION",
+        "android.permission.CAMERA"
+      ]
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "7953cf1e-3d4d-4824-88a6-bdd5e3337970"
+      }
     }
   }
 }
