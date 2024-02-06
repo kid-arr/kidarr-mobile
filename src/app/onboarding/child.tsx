@@ -1,9 +1,8 @@
 import axios, { AxiosResponse } from 'axios';
-import { BarCodeScanner } from 'expo-barcode-scanner';
+import { CameraView, Camera } from 'expo-camera/next';
+import * as Device from 'expo-device';
 import { useRouter } from 'expo-router';
 import * as SecureStore from 'expo-secure-store';
-import * as Device from 'expo-device';
-
 import { StatusCodes } from 'http-status-codes';
 import { useEffect, useState } from 'react';
 import {
@@ -11,15 +10,17 @@ import {
   Button,
   StyleSheet,
   Text,
+  TextInput,
   View,
 } from 'react-native';
 
+import { DebugConstants } from '@/constants/debug';
 import { RegisterDeviceResponse } from '@/models/responses/register-device';
 import { useAuthContext } from '@/providers/auth-provider';
 import { getUniqueDeviceId } from '@/services/unique-device-id';
-import { DebugConstants } from '@/constants/debug';
 
 const Child = () => {
+  const [isEmulator, setIsEmulator] = useState(false);
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const { setAuthState } = useAuthContext();
@@ -30,11 +31,18 @@ const Child = () => {
     const getBarcodePermissions = async () => {
       console.log('child', 'Get Permissions_inner');
 
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
+      const { status } = await Camera.requestCameraPermissionsAsync();
       console.log('child', 'Get Permissions_status', status);
       setHasPermission(status === 'granted');
     };
-    getBarcodePermissions();
+    if (!Device.isDevice) {
+      console.log('child', 'I am an emulator');
+      setIsEmulator(true);
+      setHasPermission(false);
+    } else {
+      console.log('child', 'I am not an emulator');
+      getBarcodePermissions();
+    }
   }, []);
 
   const handleScan = async ({ type, data }) => {
@@ -43,9 +51,6 @@ const Child = () => {
     const url = `${process.env.EXPO_PUBLIC_API_URL}/device/connect`;
     const deviceId =
       type === 'hack' ? DebugConstants.deviceId : await getUniqueDeviceId();
-    console.log('child', 'url', url);
-    console.log('child', 'deviceId', deviceId);
-    console.log('child', 'childId', data);
     if (type === 'hack') {
       await SecureStore.setItemAsync(
         'child',
@@ -93,7 +98,7 @@ const Child = () => {
   if (hasPermission === null) {
     return <Text>Requesting for camera permission</Text>;
   }
-  if (hasPermission === false) {
+  if (hasPermission && !isEmulator === false) {
     return <Text>No access to camera</Text>;
   }
   const renderProgress = () => {
@@ -102,8 +107,8 @@ const Child = () => {
   const renderCamera = () => {
     return (
       <View style={styles.cameraContainer}>
-        <BarCodeScanner
-          onBarCodeScanned={scanned ? undefined : handleScan}
+        <CameraView
+          onBarcodeScanned={scanned ? undefined : handleScan}
           style={styles.camera}
         />
       </View>
@@ -111,9 +116,13 @@ const Child = () => {
   };
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Scan the QR code for your child.</Text>
-      {scanned ? renderProgress() : renderCamera()}
-
+      {!isEmulator && (
+        <>
+          <Text style={styles.title}>Scan the QR code for your child.</Text>
+          {scanned ? renderProgress() : renderCamera()}
+        </>
+      )}
+      <TextInput style={styles.PINInput} />
       <View style={styles.buttonContainer}>
         <Button
           title="Spoof It (POST)"
@@ -175,5 +184,12 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  PINInput: {
+    width: '80%',
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
   },
 });
