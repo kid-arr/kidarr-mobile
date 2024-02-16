@@ -1,9 +1,9 @@
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { Button } from '@rneui/base';
 import { AxiosResponse } from 'axios';
 import React from 'react';
 import { StyleSheet, ToastAndroid } from 'react-native';
 
+import Button from '@/components/button';
 import api from '@/services/api-service';
 import { getLocationWithRetry } from '@/services/utils/location';
 
