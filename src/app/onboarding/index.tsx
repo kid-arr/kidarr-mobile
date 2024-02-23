@@ -1,7 +1,6 @@
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { Text, View, ImageBackground, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, ImageBackground } from 'react-native';
 
 import Button from '@/components/button';
 import Heading from '@/components/heading';
@@ -11,80 +10,37 @@ const image = require('../../../assets/images/onboarding.png');
 const Onboarding = () => {
   const router = useRouter();
   return (
-    <ImageBackground source={image} resizeMode="cover" style={styles.image}>
-      <SafeAreaView className="container h-full bg-white px-7">
-        <Heading content="Kidarr" />
-        <Text className="text-sm tracking-tight opacity-60 text-textDark">
-          Radarr for your kids
-        </Text>
+    <View className="flex-1">
+      <ImageBackground
+        source={image}
+        resizeMode="cover"
+        className="justify-center flex-1"
+      >
+        <View className="flex justify-between h-full p-4">
+          <View className="p-8">
+            <Heading content="Welcome to.." />
+          </View>
 
-        <View className="flex flex-col justify-between space-y-8">
-          <Button title="parent" />
-          <Button
-            title="child"
-            color="secondary"
-            onPress={async () => {
-              router.push('/onboarding/child');
-            }}
-          />
+          <View>
+            <Heading content="Kidarr Mobile..." />
+          </View>
+          <View className="flex flex-col space-y-4">
+            <View>
+              <Button title="I'm a parent" colour="primary" />
+            </View>
+            <View>
+              <Button
+                title="I'm a child"
+                colour="secondary"
+                onPress={() => {
+                  router.push('/onboarding/child');
+                }}
+              />
+            </View>
+          </View>
         </View>
-      </SafeAreaView>
-    </ImageBackground>
-    // <Block flex style={styles.container}>
-    //   <Block flex center>
-    //     <ImageBackground
-    //       source={Images.onboarding}
-    //       style={{ height, width, zIndex: 1 }}
-    //     />
-    //   </Block>
-
-    //   <Block flex space="between" style={styles.padded}>
-    //     <Block flex space="around" style={{ zIndex: 2 }}>
-    //       <Block style={styles.title}>
-    //         <Block>
-    //           <Text color="white" size={60}>
-    //             Parentgrine
-    //           </Text>
-    //         </Block>
-    //         <Block style={styles.subTitle}>
-    //           <Text color="white" size={16}>
-    //             Keeping a sharp eye on your loved ones.
-    //           </Text>
-    //         </Block>
-    //       </Block>
-    //       <Block center>
-    //         <Button
-    //           style={styles.button}
-    //           color={argonTheme.COLORS.BUTTON_COLOR}
-    //           textStyle={{ color: argonTheme.COLORS.GREY }}
-    //           onPress={async () => {
-    //             await SecureStore.setItemAsync('onbst', 'parent');
-    //             setAuthState('parent');
-    //           }}
-    //         >
-    //           I am a parent
-    //         </Button>
-    //         <Button
-    //           style={styles.button}
-    //           color={argonTheme.COLORS.SECONDARY}
-    //           textStyle={{ color: argonTheme.COLORS.BLACK }}
-    //           onPress={async () => {
-    //             router.push('/onboarding/child');
-    //           }}
-    //         >
-    //           I am a child
-    //         </Button>
-    //       </Block>
-    //     </Block>
-    //   </Block>
-    // </Block>
+      </ImageBackground>
+    </View>
   );
 };
-
-const styles = StyleSheet.create({
-  image: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-});
 export default Onboarding;
