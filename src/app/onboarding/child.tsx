@@ -7,7 +7,6 @@ import { StatusCodes } from 'http-status-codes';
 import { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
-  Button,
   StyleSheet,
   Text,
   TextInput,
@@ -18,6 +17,7 @@ import { DebugConstants } from '@/constants/debug';
 import { RegisterDeviceResponse } from '@/models/responses/register-device';
 import { useAuthContext } from '@/providers/auth-provider';
 import { getUniqueDeviceId } from '@/services/unique-device-id';
+import Button from '@/components/button';
 
 const Child = () => {
   const [isEmulator, setIsEmulator] = useState(false);
@@ -135,6 +135,7 @@ const Child = () => {
         />
         <Button
           title="Hack It (no POST)"
+          colour="danger"
           onPress={() => {
             handleScan({
               type: 'hack',
