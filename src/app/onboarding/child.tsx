@@ -7,13 +7,13 @@ import { StatusCodes } from 'http-status-codes';
 import { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
-  Button,
   StyleSheet,
   Text,
   TextInput,
   View,
 } from 'react-native';
 
+import Button from '@/components/button';
 import { DebugConstants } from '@/constants/debug';
 import { RegisterDeviceResponse } from '@/models/responses/register-device';
 import { useAuthContext } from '@/providers/auth-provider';
@@ -23,7 +23,7 @@ const Child = () => {
   const [isEmulator, setIsEmulator] = useState(false);
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
-  const { setAuthState } = useAuthContext();
+  const { setAuthState, authState } = useAuthContext();
   const router = useRouter();
 
   useEffect(() => {
@@ -48,6 +48,7 @@ const Child = () => {
   const handleScan = async ({ type, data }) => {
     setScanned(true);
     console.log('child', 'handleScan', 'making request', data);
+    console.log('child', 'handleScan', 'authState', authState);
     const url = `${process.env.EXPO_PUBLIC_API_URL}/device/connect`;
     const deviceId =
       type === 'hack' ? DebugConstants.deviceId : await getUniqueDeviceId();
@@ -135,6 +136,7 @@ const Child = () => {
         />
         <Button
           title="Hack It (no POST)"
+          colour="danger"
           onPress={() => {
             handleScan({
               type: 'hack',
