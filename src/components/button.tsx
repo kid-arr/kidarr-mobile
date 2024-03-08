@@ -27,15 +27,15 @@ const Button: React.FC<ButtonProps> = ({
     success: 'bg-[#7CFC00]',
   };
   const defaultClasses =
-    'flex cursor-pointer items-center rounded-md border-2 border-black px-10 py-3 font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none';
+    'cursor-pointer items-center rounded-md border-2 border-black py-3 font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all px-2';
   const _renderIcon = (icon: string) =>
-    icon && <MaterialIcons name="dangerous" size={28} color="white" />;
+    icon && <MaterialIcons name={icon as any} size={22} color="white" />;
   return (
     <TouchableOpacity
       onPress={onPress}
       className={twMerge(defaultClasses, colours[colour])}
     >
-      <View>
+      <View className="flex flex-row space-x-4 text-center justify-items-stretch">
         {_renderIcon(icon)}
         <Text>{title}</Text>
       </View>

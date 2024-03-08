@@ -1,6 +1,7 @@
 import * as Location from 'expo-location';
 import * as TaskManager from 'expo-task-manager';
 import React from 'react';
+import { sendLocationUpdate } from '@/services/utils/location';
 const LOCATION_TRACKING = 'location-tracking';
 const TRACKING_INTERVAL = 1 * 60 * 1000; // 1 minute
 function UserLocation() {
@@ -63,7 +64,11 @@ TaskManager.defineTask<TaskInfo>(LOCATION_TRACKING, async ({ data, error }) => {
     const lat = locations[0].coords.latitude;
     const long = locations[0].coords.longitude;
 
-    console.log(`${new Date(Date.now()).toLocaleString()}: ${lat},${long}`);
+    console.log(
+      'Location Update',
+      `${new Date(Date.now()).toLocaleString()}: ${lat},${long}`
+    );
+    await sendLocationUpdate();
   }
 });
 

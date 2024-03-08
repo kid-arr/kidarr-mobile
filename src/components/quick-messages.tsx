@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Button from './button';
 
 const values = [
   { id: 'home', label: 'At home' },
@@ -12,26 +13,20 @@ const values = [
 
 const QuickMessages = () => {
   return (
-    <Text>Hello Sailor</Text>
-    // <Card>
-    //   <Card.Title>Quick message</Card.Title>
-    //   <Card.Divider />
-    //   <View style={styles.messageContainer}>
-    //     {values.map((value) => (
-    //       <View style={styles.buttonWrapper} key={value.id}>
-    //         <Button
-    //           onPress={() => sendQuickMessage(value.label)}
-    //           radius="lg"
-    //           type="outline"
-    //           title={value.label}
-    //         />
-    //       </View>
-    //     ))}
-    //     <Button onPress={() => alert('TODO')} radius="lg" type="outline">
-    //       <Ionicons name="add-outline" size={24} color="black" />
-    //     </Button>
-    //   </View>
-    // </Card>
+    <View>
+      <Text className="pb-1 text-gray-700 text-md">Quick messages</Text>
+      <View className="flex flex-row p-2 space-x-2 border-2 rounded-md">
+        <View>
+          <Button title="Leaving now." />
+        </View>
+        <View>
+          <Button title="Where are you?" colour="danger" />
+        </View>
+        <View>
+          <Button title="I'm here!" colour="success" />
+        </View>
+      </View>
+    </View>
   );
 };
 
