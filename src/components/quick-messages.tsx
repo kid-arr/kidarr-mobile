@@ -1,6 +1,6 @@
-import { Ionicons } from '@expo/vector-icons';
-import React, { useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+
 import Button from './button';
 
 const values = [
@@ -15,15 +15,13 @@ const QuickMessages = () => {
   return (
     <View>
       <Text className="pb-1 text-gray-700 text-md">Quick messages</Text>
-      <View className="flex flex-row p-2 space-x-2 border-2 rounded-md">
-        <View>
-          <Button title="Leaving now." />
-        </View>
-        <View>
-          <Button title="Where are you?" colour="danger" />
-        </View>
-        <View>
-          <Button title="I'm here!" colour="success" />
+      <View className="p-2 border-2 rounded-md ">
+        <View className="flex flex-row flex-wrap gap-2">
+          {values.map((value) => (
+            <View className="grow" key={value.id}>
+              <Button title={value.label} />
+            </View>
+          ))}
         </View>
       </View>
     </View>
